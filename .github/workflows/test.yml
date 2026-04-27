@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run SQL script in SQLite
-        run: sqlite3 :memory: < AstronautQuery.sql > output.txt
+        run: "sqlite3 :memory: < AstronautQuery.sql > output.txt"
       - name: Verify expected results
         run: |
           test -s output.txt
