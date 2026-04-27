@@ -1,0 +1,23 @@
+name: Test SQL
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  sqlite-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run SQL script in SQLite
+        run: sqlite3 :memory: < AstronautQuery.sql > output.txt
+      - name: Verify expected results
+        run: |
+          test -s output.txt
+          grep -q "Elite" output.txt
+          grep -q "Died in Mission" output.txt
+      - name: Upload query output
+        uses: actions/upload-artifact@v4
+        with:
+          name: query-output
+          path: output.txt
